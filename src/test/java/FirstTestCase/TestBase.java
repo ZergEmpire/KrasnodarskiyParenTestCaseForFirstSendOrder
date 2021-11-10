@@ -78,12 +78,20 @@ public class TestBase {
 
     @Step("Открываю сайт")
     public void openURL() {
-        open("https://kirov.krd-paren.ru/");
+        open("https://krd-paren.ru/");
+    }
+
+    @Step ("Выбираю город")
+    public void restSelect() {
+        $x("//div[contains(@class, \"desktop\")]//a[@class = \"current-rest-name\"]").click();
+        List<SelenideElement> terminalSwitch = elements(By.xpath("//div[contains(@class, \"desktop\")]/div [@class = \"top-rest-select\"]/ul[@class = \"dropdown\"]/li/a[contains(text(), \"\") and not (contains(text(), \"Краснодар\"))and not (contains(text(), \"Балашиха\"))]"));
+        int i = (int) (Math.random() * terminalSwitch.size());
+        terminalSwitch.get(i).click();
     }
 
     @Step("Перехожу в рандомный пункт меню для оформления тестового заказа")
     public void mathRandomHead() {
-        List<SelenideElement> mathRandomHead = elements(By.xpath("//a[contains(@class, \"scroll-nav_link\") and not (@href = \"/menu/sushi\") and not (@href = \"/menu/rolly\")]"));
+        List<SelenideElement> mathRandomHead = elements(By.xpath("//a[contains(@class, \"scroll-nav_link\") and not (@href = \"/menu/sushi\") and not (@href = \"/menu/rolly\") and not (@href = \"/menu/burgery\") and not (@href = \"/menu/zavtraki\")]"));
         int i = (int) (Math.random() * mathRandomHead.size());
         mathRandomHead.get(i).click();
     }
@@ -137,7 +145,8 @@ public class TestBase {
 
     @Step("Кликаю на кнопку отправки заказа")
     public void sendOrder() {
-        $x("//div[@class = \"item-cart-buttons\" ]/button[contains(@class, \"btn\")]").scrollTo().click();
+        $x("//div[@class = \"item-cart-buttons\" ]/button[contains(@class, \"btn\") and (@id)]").scrollTo().click();
+
     }
 
     @Step("Жду перехода в статус принят")
